@@ -3,6 +3,8 @@ package pl.swierczkacper.ksbchatmanager;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,6 +75,52 @@ public final class KSBChatManager extends JavaPlugin implements Listener {
             Bukkit.broadcastMessage(playerDisplayName + " >>> " + message);
         }
     }
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        String prefix = getPlayerPrefix(event.getEntity());
+
+        String msg = ChatColor.translateAlternateColorCodes('&', prefix + event.getEntity().getName() + " " + getConfig().getString("death_message"));
+
+        event.setDeathMessage(msg);
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
+        if(command.getName().equalsIgnoreCase("a"))
+        {
+            if(sender instanceof Player)
+            {
+                Player player = (Player) sender;
+
+                if(perms.has(player, "ksbchatmanager.chat.adminchat"))
+                {
+                    if(args.length > 0)
+                    {
+                        String message = "";
+                        for(int i = 0; i < args.length; i++)
+                        {
+                            message += args[i] + " ";
+                        }
+                        message = message.substring(0, message.length() - 1);
+
+                        String prefix = getPlayerPrefix(player);
+                        String playerDisplayName = ChatColor.translateAlternateColorCodes('&', prefix + player.getName());
+
+                        for(Player p : Bukkit.getOnlinePlayers())
+                        {
+                            if(perms.has(p, "ksbchatmanager.chat.adminchat"))
+                            {
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("admin_chat_prefix") + playerDisplayName + " >>> " + message));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
 
     public void informAdministrators(Player sender, String message) {
         for (Player player : Bukkit.getOnlinePlayers())
@@ -95,15 +143,6 @@ public final class KSBChatManager extends JavaPlugin implements Listener {
         }
 
         return false;
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        String prefix = getPlayerPrefix(event.getEntity());
-
-        String msg = ChatColor.translateAlternateColorCodes('&', prefix + event.getEntity().getName() + " " + getConfig().getString("death_message"));
-
-        event.setDeathMessage(msg);
     }
 
     public String getPlayerPrefix(Player player) {

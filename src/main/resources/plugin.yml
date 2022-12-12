@@ -5,5 +5,9 @@ api-version: 1.19
 authors: [ SwierczKacper ]
 description: Manage chat
 website: swierczkacper.pl
+commands:
+  a:
+    description: Admin chat
+
 depend:
   - Vault

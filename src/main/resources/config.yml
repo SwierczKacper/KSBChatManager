@@ -1,4 +1,6 @@
 death_message: "&d&l[*]"
+admin_chat_prefix: "&d&l[ADMIN] "
+
 group_prefixes:
   default: '&7[&fDefault&7] &f'
 
