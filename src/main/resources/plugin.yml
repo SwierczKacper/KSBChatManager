@@ -1,0 +1,9 @@
+name: KSBChatManager
+version: '${project.version}'
+main: pl.swierczkacper.ksbchatmanager.KSBChatManager
+api-version: 1.19
+authors: [ SwierczKacper ]
+description: Manage chat
+website: swierczkacper.pl
+depend:
+  - Vault

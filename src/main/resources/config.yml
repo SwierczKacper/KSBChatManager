@@ -1,0 +1,16 @@
+death_message: "&d&l[*]"
+group_prefixes:
+  default: '&7[&fDefault&7] &f'
+
+ads_blocked_domains:
+  - '.pl'
+  - '.com'
+  - '.net'
+  - '.org'
+  - '.mc'
+  - '.com.pl'
+  - '.eu'
+  - '.ru'
+
+messages:
+  blocked_domains: '&b&lSky&d&lEmpire &3&l>>> &c&lReklama jest zabroniona na tym serwerze!'
